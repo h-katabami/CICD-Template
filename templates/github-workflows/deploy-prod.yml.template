@@ -1,0 +1,21 @@
+name: Terraform Deploy (prod)
+
+on:
+  push:
+    branches: [prod]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    uses: __CICD_REPO_SLUG__/.github/workflows/reusable-terraform-deploy.yml@__CICD_REPO_REF__
+    with:
+      project_name: __PROJECT_NAME__
+      tf_env_dir: infra/terraform/envs/prod
+      aws_region: __AWS_REGION__
+      branch_env: prod
+    secrets:
+      aws_role_arn: ${{ secrets.AWS_ROLE_ARN_PROD }}

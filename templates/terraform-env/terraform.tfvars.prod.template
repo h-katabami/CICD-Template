@@ -1,0 +1,12 @@
+project     = "__PROJECT_NAME__"
+aws_region  = "__AWS_REGION__"
+account_id  = "__AWS_ACCOUNT_ID__"
+aws_profile = "prod"
+
+iam_roles = {}
+lambdas = {}
+dynamodb_tables     = {}
+s3_buckets          = {}
+existing_s3_buckets = {}
+stepfunctions       = {}
+ssm_parameters      = {}
