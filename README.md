@@ -1,32 +1,16 @@
 # cicd-template-repo
 
-CI/CD 設定を量産するためのテンプレートリポジトリです。  
-このフォルダはローカル実装用で、GitHub へ発行せずに利用できます。
+CI/CD 設定を量産するためのスターターリポジトリです。  
 
 ## できること
 
-- `cicd-repo` の reusable workflow を呼び出す `dev` / `prod` 用 GitHub Actions テンプレートを提供
-- Terraform backend（S3）前提の `backend.tf` / `terraform.tfvars` テンプレートを提供
+- `dev` / `prod` 用 GitHub Actions workflow をそのまま利用可能
+- Terraform backend（S3）前提の `backend.tf` / `terraform.tfvars` を env ごとに利用可能
 
-## 使い方
 
-このリポジトリは GitHub の `Use this template` で新規リポジトリ作成して利用します。
+## 初回に編集する主な項目:
 
-テンプレートファイル:
-
-- `templates/github-workflows/deploy-dev.yml.template`
-- `templates/github-workflows/deploy-prod.yml.template`
-- `templates/terraform-env/backend.tf.template`
-- `templates/terraform-env/terraform.tfvars.dev.template`
-- `templates/terraform-env/terraform.tfvars.prod.template`
-
-`terraform.tfvars` テンプレートの既定値:
-
-- dev: `aws_region = "ap-northeast-1"`, `environment = "dev"`, `account_id = "237710157750"`
-- prod: `aws_region = "us-east-1"`, `environment = "prod"`, `account_id = "353666332910"`
-
-## 追加で設定が必要なもの
-
-- `cicd-repo` を GitHub 上で公開し、Actions から参照可能にする
-- GitHub Repository Variable: `TF_STATE_BUCKET`
-- GitHub Secret: `AWS_ROLE_ARN_DEV`, `AWS_ROLE_ARN_PROD`
+- workflow: `project_name`, `aws_region`, reusable workflow の参照先 (`uses`)
+- tfvars: `project`（必要に応じて `account_id`, `aws_region`）
+- GitHub Variables / Secrets は不要（workflow 内で固定値を使用）
+- state バケットは env ごとに固定値（dev: `h-katabami-cicd-state-237710157750` / prod: `h-katabami-cicd-state-353666332910`）

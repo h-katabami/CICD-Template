@@ -1,4 +1,0 @@
-# S3 backend (partial configuration)
-terraform {
-  backend "s3" {}
-}
