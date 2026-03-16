@@ -5,38 +5,28 @@ CI/CD 設定を量産するためのテンプレートリポジトリです。
 
 ## できること
 
-- `cicd-repo` の reusable workflow を呼び出す `dev` / `prod` 用 GitHub Actions を生成
-- Terraform backend（S3）前提の `backend.tf` / `terraform.tfvars` 雛形を生成
+- `cicd-repo` の reusable workflow を呼び出す `dev` / `prod` 用 GitHub Actions テンプレートを提供
+- Terraform backend（S3）前提の `backend.tf` / `terraform.tfvars` テンプレートを提供
 
 ## 使い方
 
-PowerShell で以下を実行します。
+このリポジトリは GitHub の `Use this template` で新規リポジトリ作成して利用します。
 
-```powershell
-./scripts/new-cicd-project.ps1 `
-  -TargetRepoPath "C:/path/to/your-repo" `
-  -ProjectName "Kawagoe-City" `
-  -AwsRegion "ap-northeast-1" `
-  -CicdRepoSlug "your-org/cicd-repo" `
-  -CicdRepoRef "main" `
-  -AwsAccountId "123456789012"
-```
+テンプレートファイル:
 
-生成物:
+- `templates/github-workflows/deploy-dev.yml.template`
+- `templates/github-workflows/deploy-prod.yml.template`
+- `templates/terraform-env/backend.tf.template`
+- `templates/terraform-env/terraform.tfvars.dev.template`
+- `templates/terraform-env/terraform.tfvars.prod.template`
 
-- `<target>/.github/workflows/deploy-dev.yml`
-- `<target>/.github/workflows/deploy-prod.yml`
-- `<target>/infra/terraform/envs/dev/backend.tf`
-- `<target>/infra/terraform/envs/prod/backend.tf`
-- `<target>/infra/terraform/envs/prod/terraform.tfvars`（未存在時のみ）
+`terraform.tfvars` テンプレートの既定値:
+
+- dev: `aws_region = "ap-northeast-1"`, `environment = "dev"`, `account_id = "237710157750"`
+- prod: `aws_region = "us-east-1"`, `environment = "prod"`, `account_id = "353666332910"`
 
 ## 追加で設定が必要なもの
 
 - `cicd-repo` を GitHub 上で公開し、Actions から参照可能にする
 - GitHub Repository Variable: `TF_STATE_BUCKET`
 - GitHub Secret: `AWS_ROLE_ARN_DEV`, `AWS_ROLE_ARN_PROD`
-
-## Kawagoe へ適用するときに必要な値
-
-- `CicdRepoSlug`: GitHub 上の `owner/repo`。例: `your-org/CICD-Repository`
-- `CicdRepoRef`: reusable workflow を参照するブランチまたはタグ。通常は `main`

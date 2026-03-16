@@ -1,7 +1,7 @@
 project     = ""
-aws_region  = "us-east-1"
-environment = "prod"
-account_id  = "353666332910"
+aws_region  = "ap-northeast-1"
+environment = "dev"
+account_id  = "237710157750"
 
 iam_roles = {}
 lambdas = {}
