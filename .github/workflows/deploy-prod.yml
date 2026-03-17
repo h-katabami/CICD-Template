@@ -3,32 +3,12 @@ name: Terraform Deploy (prod)
 on:
   push:
     branches: [prod]
+  workflow_dispatch:
 
-  jobs:
-    build-lambdas:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-        - name: Create build directory
-          run: mkdir -p build
-        - name: Zip all Lambda functions under lambda/
-          run: |
-            for d in lambda/*/ ; do
-              name=$(basename "$d")
-              zip -r "build/${name}.zip" "$d" -x "*/__pycache__/*"
-            done
-
-    deploy:
-      needs: build-lambdas
-      uses: h-katabami/CICD-Repository/.github/workflows/reusable-terraform-deploy.yml@main
-      with:
-        project_suffix: Template
-        tf_env_dir: infra/terraform/envs/prod
-        aws_region: us-east-1
-        branch_env: prod
-        aws_role_arn: arn:aws:iam::353666332910:role/gha-terraform-deploy-prod
-
+jobs:
+  deploy:
+    uses: h-katabami/CICD-Repository/.github/workflows/reusable-terraform-deploy.yml@main
+    with:
       project_suffix: Template
       tf_env_dir: infra/terraform/envs/prod
       aws_region: us-east-1
